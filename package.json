@@ -9,11 +9,11 @@
   ],
   "scripts": {
     "test": "mocha dist/test/helper dist/test/unit/{*.spec.js,**/*.spec.js} --timeout 15000",
-    "dtest": "npm run build && npm run test",
-    "build": "rm -rf ./dist && tsc && gulp build",
-    "version": "conventional-changelog -p angular -i doc/CHANGELOG.md -s && git add -A doc/CHANGELOG.md",
+    "dtest": "npm run build & npm run test",
+    "build": "rd /s /q C:\\github_forks\\wetland\\dist & tsc & gulp build",
+    "version": "conventional-changelog -p angular -i doc/CHANGELOG.md -s & git add -A doc/CHANGELOG.md",
     "prepublish": "npm run build",
-    "postpublish": "git push upstream master && git push upstream --tags"
+    "postpublish": "git push upstream master & git push upstream --tags"
   },
   "repository": {
     "type": "git",

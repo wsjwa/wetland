@@ -899,10 +899,12 @@ export class UnitOfWork {
             }
 
             if (target.isEntityProxy) {
+              //@ts-ignore
               target[primaryKey] = { _skipDirty: result[0] };
 
               target.activateProxying();
             } else {
+              //@ts-ignore
               target[primaryKey] = result[0];
             }
           });
