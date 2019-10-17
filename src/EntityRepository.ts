@@ -169,7 +169,9 @@ export class EntityRepository<T> {
         if (typeof join === 'object') {
           column = Object.keys(join)[0];
           alias = join[column];
+          //@ts-ignore
         } else if (join.indexOf('.') > -1) {
+          //@ts-ignore
           alias = join.split('.')[1];
         }
 
