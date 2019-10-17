@@ -842,7 +842,7 @@ export class QueryBuilder<T> {
    *
    * @returns {QueryBuilder}
    */
-  private applyRegularSelect(propertyAlias: string): this {
+  private applyRegularSelect(propertyAlias): this {
     let alias = this.alias;
 
     // Set default propertyAlias for context-entity properties.
@@ -866,10 +866,11 @@ export class QueryBuilder<T> {
     } else {
       const mapping = this.mappings[propertyAlias];
       const fields = mapping.getFields();
+      let currentEntitysPrimaryKey = mapping.getPrimaryKeyField();
       alias = propertyAlias;
 
       Object.getOwnPropertyNames(fields).forEach(field => {
-        if (!fields[field].relationship) {
+        if (!fields[field].relationship && field !== currentEntitysPrimaryKey) {
           const fieldName = fields[field].name || (fields[field].primary ? 'id' : null);
 
           if (!fieldName) {
@@ -883,7 +884,10 @@ export class QueryBuilder<T> {
 
           selectAliases.push(`${fieldAlias} as ${fieldAlias}`);
         }
-      });
+        else if(field === currentEntitysPrimaryKey) {
+          this.applyPrimaryKeySelect(alias);
+        }
+      }, this);
     }
 
     this.statement.select(selectAliases);
