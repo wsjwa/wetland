@@ -280,19 +280,27 @@ class SnapshotManager {
             if (!toCreate.relations) {
                 return;
             }
-            Reflect.ownKeys(toCreate.relations).forEach(property => {
-                const relation = toCreate.relations[property];
-                if (newMapping[relation.targetEntity] === undefined) {
-                    throw new Error(`Unable to find "${relation.targetEntity}" on "${entity}". ` +
-                        `Check the targetEntity name, and class name for typos and make sure you don't have a circular dependency.`);
-                }
-                const prepared = createRelation(newMapping[entity], property, newMapping[relation.targetEntity], true);
-                if (!prepared) {
-                    return;
-                }
-                create.fields.push(prepared.field);
-                getForeignCreateInstructions(instructions.foreign, toCreate.entity.tableName).push(prepared.foreign);
-            });
+            //adds fields that are already added. unnecessary
+            /* Reflect.ownKeys(toCreate.relations).forEach(property => {
+               const relation = toCreate.relations[property];
+       
+               if (newMapping[relation.targetEntity] === undefined) {
+                 throw new Error(
+                   `Unable to find "${relation.targetEntity}" on "${entity}". ` +
+                   `Check the targetEntity name, and class name for typos and make sure you don't have a circular dependency.`,
+                 );
+               }
+       
+               const prepared = createRelation(newMapping[entity], property, newMapping[relation.targetEntity], true);
+       
+               if (!prepared) {
+                 return;
+               }
+       
+               create.fields.push(prepared.field);
+       
+               getForeignCreateInstructions(instructions.foreign, toCreate.entity.tableName).push(prepared.foreign);
+             });*/
         });
         // Make sure all tables to drop are staged as instructions
         diff.drop.forEach(entity => {
