@@ -356,7 +356,8 @@ export class SnapshotManager {
         return;
       }
 
-      Reflect.ownKeys(toCreate.relations).forEach(property => {
+     //adds fields that are already added. unnecessary
+     /* Reflect.ownKeys(toCreate.relations).forEach(property => {
         const relation = toCreate.relations[property];
 
         if (newMapping[relation.targetEntity] === undefined) {
@@ -375,7 +376,7 @@ export class SnapshotManager {
         create.fields.push(prepared.field);
 
         getForeignCreateInstructions(instructions.foreign, toCreate.entity.tableName).push(prepared.foreign);
-      });
+      });*/
     });
 
     // Make sure all tables to drop are staged as instructions
