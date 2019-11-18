@@ -86,6 +86,7 @@ export declare class QueryBuilder<T> {
     private aliased;
     private children;
     private queryBuilders;
+    protected knex: any;
     /**
      * Construct a new QueryBuilder.
      *
@@ -257,7 +258,7 @@ export declare class QueryBuilder<T> {
      *
      * @returns {Query}
      */
-    getQuery(): Query;
+    getQuery(knex?: any): Query;
     /**
      * Columns to select. Chainable, and allows an array of arguments typed below.
      *

@@ -361,7 +361,8 @@ class QueryBuilder {
      *
      * @returns {Query}
      */
-    getQuery() {
+    getQuery(knex) {
+        this.knex = knex;
         this.prepare();
         return this.query;
     }
@@ -624,7 +625,7 @@ class QueryBuilder {
     applyFrom() {
         if (this.derivedFrom) {
             const { derived, alias } = this.derivedFrom;
-            this.statement.from(this.statement['client'].raw(`(${derived.getQuery().getSQL()}) as ${alias}`));
+            this.statement.from(this.statement['client'].raw(`(${derived.getQuery(this.knex).getSQL()}) as ${alias}`));
             this.derivedFrom = null;
         }
         return this;
@@ -650,6 +651,9 @@ class QueryBuilder {
         if (Array.isArray(propertyAlias)) {
             propertyAlias.forEach(value => this.applySelect(value));
             return this;
+        }
+        if (typeof propertyAlias == 'object' && propertyAlias.sql !== undefined) {
+            return this.applyRegularSelect(propertyAlias);
         }
         if (typeof propertyAlias === 'string') {
             return this.applyRegularSelect(propertyAlias);
@@ -679,6 +683,10 @@ class QueryBuilder {
      */
     applyRegularSelect(propertyAlias) {
         let alias = this.alias;
+        if (typeof propertyAlias == 'object' && propertyAlias.sql !== undefined) {
+            this.statement.select(this.knex.raw(propertyAlias.sql));
+            return this;
+        }
         // Set default propertyAlias for context-entity properties.
         if (propertyAlias.indexOf('.') === -1 && !this.mappings[propertyAlias]) {
             propertyAlias = `${alias}.${propertyAlias}`;
