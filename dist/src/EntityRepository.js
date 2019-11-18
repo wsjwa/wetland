@@ -163,7 +163,7 @@ class EntityRepository {
      * @returns {Promise<Array>}
      */
     find(criteria, options = {}) {
-        return this.prepareFindQuery(criteria, options).getQuery().getResult();
+        return this.prepareFindQuery(criteria, options).getQuery(this.getConnection()).getResult();
     }
     /**
      * Find a single entity.

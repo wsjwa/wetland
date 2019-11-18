@@ -203,7 +203,7 @@ export class EntityRepository<T> {
    * @returns {Promise<Array>}
    */
   public find(criteria?: {} | number | string, options: FindOptions = {}): Promise<Array<T>> {
-    return this.prepareFindQuery(criteria, options).getQuery().getResult();
+    return this.prepareFindQuery(criteria, options).getQuery(this.getConnection()).getResult();
   }
 
   /**
@@ -277,4 +277,5 @@ export interface FindOptions {
   offset?: number;
   debug?: boolean;
   populate?: string | boolean | {} | Array<string | {}>;
+  
 }
