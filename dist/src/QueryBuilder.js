@@ -16,7 +16,7 @@ class QueryBuilder {
      * @param {string}            alias
      * @param {boolean}           managed
      */
-    constructor(entityManager, statement, mapping, alias, managed = true) {
+    constructor(entityManager, statement, mapping, alias, managed = true, knex) {
         /**
          * @type {boolean}
          */
@@ -68,6 +68,9 @@ class QueryBuilder {
         this.hydrator = new Hydrator_1.Hydrator(entityManager, managed);
         this.query = new Query_1.Query(statement, this.hydrator, this.children);
         this.hydrator.addRecipe(null, alias, this.mappings[alias]);
+        if (knex !== undefined) {
+            this.knex = knex;
+        }
     }
     /**
      * Create an alias.
@@ -362,7 +365,10 @@ class QueryBuilder {
      * @returns {Query}
      */
     getQuery(knex) {
-        this.knex = knex;
+        if (knex !== undefined) {
+            this.knex = knex;
+        }
+        this.query.knex = knex;
         this.prepare();
         return this.query;
     }

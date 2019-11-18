@@ -60,13 +60,14 @@ class Query {
      * @returns {Promise<{}[]>}
      */
     getResult() {
+        let currentKnex = this.knex;
         return this.execute().then(result => {
             if (!result || !result.length) {
                 return null;
             }
             const hydrated = this.hydrator.hydrateAll(result);
             return Promise.all(this.children.map(child => {
-                return child.getQuery().getResult();
+                return child.getQuery(currentKnex).getResult();
             })).then(() => hydrated);
         });
     }

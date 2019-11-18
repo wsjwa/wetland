@@ -22,6 +22,7 @@ export declare class Query {
      * @type {Array}
      */
     private children;
+    knex: any;
     /**
      * Construct a new Query.
      *

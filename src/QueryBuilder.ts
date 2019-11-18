@@ -107,7 +107,7 @@ export class QueryBuilder<T> {
    * @param {string}            alias
    * @param {boolean}           managed
    */
-  public constructor(entityManager: Scope, statement: knex.QueryBuilder, mapping: Mapping<T>, alias: string, managed: boolean = true) {
+  public constructor(entityManager: Scope, statement: knex.QueryBuilder, mapping: Mapping<T>, alias: string, managed: boolean = true, knex?) {
     this.alias = alias;
     this.mappings = { [alias]: mapping };
     this.statement = statement;
@@ -120,6 +120,10 @@ export class QueryBuilder<T> {
     this.query = new Query(statement, this.hydrator, this.children);
 
     this.hydrator.addRecipe(null, alias, this.mappings[alias]);
+
+    if(knex !== undefined) {
+      this.knex = knex;
+    }
   }
 
   /**
@@ -467,7 +471,10 @@ export class QueryBuilder<T> {
    * @returns {Query}
    */
   public getQuery(knex?): Query {
-    this.knex = knex;
+    if(knex !== undefined) {
+      this.knex = knex;
+    }
+    this.query.knex = knex;
     this.prepare();
 
     return this.query;

@@ -96,7 +96,7 @@ export declare class QueryBuilder<T> {
      * @param {string}            alias
      * @param {boolean}           managed
      */
-    constructor(entityManager: Scope, statement: knex.QueryBuilder, mapping: Mapping<T>, alias: string, managed?: boolean);
+    constructor(entityManager: Scope, statement: knex.QueryBuilder, mapping: Mapping<T>, alias: string, managed?: boolean, knex?: any);
     /**
      * Create an alias.
      *

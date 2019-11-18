@@ -28,6 +28,8 @@ export class Query {
    */
   private children: Array<QueryBuilder<{ new() }>> = [];
 
+  knex;
+
   /**
    * Construct a new Query.
    *
@@ -89,6 +91,7 @@ export class Query {
    * @returns {Promise<{}[]>}
    */
   public getResult(): Promise<any> {
+    let currentKnex = this.knex;
     return this.execute().then(result => {
       if (!result || !result.length) {
         return null;
@@ -97,7 +100,7 @@ export class Query {
       const hydrated = this.hydrator.hydrateAll(result);
 
       return Promise.all(this.children.map(child => {
-        return child.getQuery().getResult();
+        return child.getQuery(currentKnex).getResult();
       })).then(() => hydrated);
     });
   }

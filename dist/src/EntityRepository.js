@@ -42,7 +42,7 @@ class EntityRepository {
     getQueryBuilder(alias, statement, managed = true) {
         const builderAlias = this.getAlias(alias);
         // Create a new QueryBuilder, pass in a scoped entity manager.
-        return new QueryBuilder_1.QueryBuilder(this.getScope(), this.getStatement(builderAlias, statement), this.mapping, builderAlias, managed);
+        return new QueryBuilder_1.QueryBuilder(this.getScope(), this.getStatement(builderAlias, statement), this.mapping, builderAlias, managed, this.getConnection());
     }
     /**
      * Resolve to an alias. If none was supplied the table name is used.

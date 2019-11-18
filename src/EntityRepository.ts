@@ -64,7 +64,7 @@ export class EntityRepository<T> {
     const builderAlias = this.getAlias(alias);
 
     // Create a new QueryBuilder, pass in a scoped entity manager.
-    return new QueryBuilder(this.getScope(), this.getStatement(builderAlias, statement), this.mapping, builderAlias, managed);
+    return new QueryBuilder(this.getScope(), this.getStatement(builderAlias, statement), this.mapping, builderAlias, managed, this.getConnection());
   }
 
   /**
