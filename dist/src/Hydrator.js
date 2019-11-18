@@ -272,6 +272,11 @@ class Hydrator {
         Object.getOwnPropertyNames(recipe.columns).forEach(alias => {
             entity[recipe.columns[alias]] = row[alias];
         });
+        for (let field in row) {
+            if (entity[field] === undefined) {
+                entity[field] = row[field];
+            }
+        }
         const workingEntity = this.managed ? EntityProxy_1.EntityProxy.patchEntity(entity, this.entityManager) : entity;
         if (this.managed) {
             this.unitOfWork.registerClean(entity, true);
