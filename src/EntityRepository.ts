@@ -203,7 +203,7 @@ export class EntityRepository<T> {
    * @returns {Promise<Array>}
    */
   public find(criteria?: {} | number | string, options: FindOptions = {}): Promise<Array<T>> {
-    return this.prepareFindQuery(criteria, options).getQuery(this.getConnection()).getResult();
+    return this.prepareFindQuery(criteria, options).getQuery(this.getConnection()).getResult(this.mapping.getTableName(), options);
   }
 
   /**

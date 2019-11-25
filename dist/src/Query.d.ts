@@ -55,12 +55,13 @@ export declare class Query {
      * @returns {Promise<number>}
      */
     getSingleScalarResult(): Promise<number>;
+    removeDuplicatePopulateValues(result: any, tableName: any, populate: any): any;
     /**
      * Get the result for the query.
      *
      * @returns {Promise<{}[]>}
      */
-    getResult(): Promise<any>;
+    getResult(tableName?: any, queryOptions?: any): Promise<any>;
     /**
      * Get the SQL query for current query.
      *
