@@ -55,6 +55,12 @@ export declare class Query {
      * @returns {Promise<number>}
      */
     getSingleScalarResult(): Promise<number>;
+    /**
+     *
+     * @param result
+     * @param tableName
+     * @param populate
+     */
     removeDuplicatePopulateValues(result: any, tableName: any, populate: any): any;
     /**
      * Get the result for the query.

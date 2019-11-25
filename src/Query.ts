@@ -85,13 +85,16 @@ export class Query {
     });
   }
 
+  /**
+   * 
+   * @param result 
+   * @param tableName 
+   * @param populate 
+   */
   removeDuplicatePopulateValues(result, tableName, populate) {
     if(populate !== undefined) {
         if(!Array.isArray(populate)) {
             populate = [populate];
-        }
-        if(populate.length == 0) {
-          return result;
         }
         var currentPops;
         for(var i=0;i<populate.length;i++) {
@@ -103,9 +106,7 @@ export class Query {
             }
         }
     }
-    else {
-        return result;
-    }
+
     if(tableName === undefined) {
         tableName = '';
     }
@@ -118,7 +119,7 @@ export class Query {
                     if(currentSplitVal[0] == tableName) {
                         delete result[i][field];
                     }
-                    else if(populate.indexOf(currentSplitVal[0]) != -1) {
+                    else if(populate !== undefined && populate.indexOf(currentSplitVal[0]) != -1) {
                         delete result[i][field];
                     }
                 }
@@ -135,7 +136,7 @@ export class Query {
                 if(currentSplitVal[0] == tableName) {
                     delete result[field];
                 }
-                else if(populate.indexOf(currentSplitVal[0]) != -1) {
+                else if(populate !== undefined && populate.indexOf(currentSplitVal[0]) != -1) {
                     delete result[field];
                 }
             }
@@ -165,7 +166,7 @@ export class Query {
       return Promise.all(this.children.map(child => {
         return child.getQuery(currentKnex).getResult();
       })).then(function() {
-        if(typeof queryOptions == 'object' && Array.isArray(queryOptions.select) && queryOptions.select.length > 0 && queryOptions.populate !== undefined) {
+        if(typeof queryOptions == 'object' && Array.isArray(queryOptions.select) && queryOptions.select.length > 0) {
             try {
                 return currentThis.removeDuplicatePopulateValues(hydrated, tableName, queryOptions.populate);
             } catch(err) {
