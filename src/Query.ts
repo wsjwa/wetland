@@ -166,13 +166,14 @@ export class Query {
       return Promise.all(this.children.map(child => {
         return child.getQuery(currentKnex).getResult();
       })).then(function() {
-        if(typeof queryOptions == 'object' && Array.isArray(queryOptions.select) && queryOptions.select.length > 0) {
+        //throws error if activated: Can't get metadata, provided instance isn't of type Object
+        /*if(typeof queryOptions == 'object' && Array.isArray(queryOptions.select) && queryOptions.select.length > 0) {
             try {
                 return currentThis.removeDuplicatePopulateValues(hydrated, tableName, queryOptions.populate);
             } catch(err) {
                 return hydrated;
             }
-        }
+        }*/
         return hydrated;
       });
     });
